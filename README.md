@@ -1,7 +1,9 @@
 # Исходный код из уроков
 
 [Telegram Канал](https://t.me/+67VbFcnlQJ80MjFh)
+
 [Youtube Канал](https://www.youtube.com/@zproger/videos)
+
 [Сайт](https://www.zproger-school.com/)
 
 Все примеры кода из видео вы можете найти в соответствующей папке репозитория.
@@ -10,7 +12,7 @@
 
 | Видео | Исходники |
 | ------ | ------ |
-| Почему not not value БЫСТРЕЕ bool в Python | [перейти к коду](videos/1) |
+| почему not not value быстрее bool в python | [перейти к коду](videos/почему_not_not_value_быстрее_bool_в_python) |
 
 
 
