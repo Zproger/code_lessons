@@ -15,7 +15,7 @@
 | Почему not not value быстрее bool в python | [перейти к коду](videos/почему_not_not_value_быстрее_bool_в_python) |
 | Обучение парсингу на Python. Зарабатываем на фрилансе автоматизируя Хабр | [перейти к коду](videos/обучение_парсингу_на_python_хабр) |
 | Лучшие способы Ускорить и Оптимизировать Python код | [перейти к коду](videos/лучшие_способы_ускорить_python_код) |
-| Requests VS Aiohttp | Ускоряем HTTP запросы на максимум | [перейти к коду](videos/requests_vs_aiohttp) |
+| Requests VS Aiohttp. Ускоряем HTTP запросы на максимум | [перейти к коду](videos/requests_vs_aiohttp) |
 
 
 
