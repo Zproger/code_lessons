@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Записки</title>
+    <!-- Подключаем CSS Materialize CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+</head>
+<body class="grey lighten-4">
+    <div class="container mt-5">
+        <!-- Верхний блок с заголовком -->
+        <h3 class="center-align">Всего записок: {{ notes_count }}</h3>
+
+        <!-- Первый блок div с полем для ввода текста записки, секретной фразы и кнопкой "Отправить" -->
+        <div class="row">
+            <div class="col s12 m8 offset-m2">
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title">Введите текст записки и секретную фразу</span>
+                        <form id="noteForm" method="POST" action="/create_note">
+                            <div class="input-field">
+                                <input type="text" id="secretPhrase" name="secret">
+                                <label for="secretPhrase">Введите секретную фразу</label>
+                            </div>
+                            <div class="input-field">
+                                <textarea class="materialize-textarea" id="noteText" name="text" rows="4"></textarea>
+                                <label for="noteText">Введите текст записки</label>
+                            </div>
+                            <div class="card-action">
+                                <button class="btn waves-effect waves-light" type="submit">Отправить</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Второй блок div с полем для ввода ID записки и секретной фразы, и кнопкой "Получить" -->
+        <div class="row">
+            <div class="col s12 m8 offset-m2">
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title">Введите ID записки и секретную фразу</span>
+                        <form id="getNoteForm" method="POST" action="/get_note">
+                            <div class="input-field">
+                                <input type="text" id="noteId" name="id">
+                                <label for="noteId">Введите ID записки</label>
+                            </div>
+                            <div class="input-field">
+                                <input type="text" id="getSecretPhrase" name="secret">
+                                <label for="getSecretPhrase">Введите секретную фразу</label>
+                            </div>
+                            <div class="card-action">
+                                <button class="btn waves-effect waves-light" type="submit">Получить</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Подключаем JavaScript и ваш собственный скрипт -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        // Инициализация Materialize CSS элементов
+        document.addEventListener('DOMContentLoaded', function() {
+            M.AutoInit();
+        });
+
+        // JavaScript код для отправки POST-запроса
+        document.getElementById('noteForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Предотвращаем стандартное поведение отправки формы
+            // Получаем данные из полей формы
+            var secretPhrase = document.getElementById('secretPhrase').value;
+            var noteText = document.getElementById('noteText').value;
+
+            // Отправляем POST запрос на сервер
+            fetch('/create_note', {
+                method: 'POST',
+                body: JSON.stringify({ text: noteText, secret: secretPhrase }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                // После успешного ответа переходим на страницу результата
+                if (data.response === "ok") {
+                    document.location.href = "/result/" + data.note_id
+                }
+            })
+            .catch(error => {
+                // Обработка ошибок, если необходимо
+                console.error('Ошибка:', error);
+            });
+
+            // Очищаем поля ввода после отправки
+            document.getElementById('secretPhrase').value = '';
+            document.getElementById('noteText').value = '';
+        });
+
+        // JavaScript код для обработки события получения записок
+        document.getElementById('getNoteForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Предотвращаем стандартное поведение отправки формы
+            // Получаем данные из полей формы
+            var noteId = document.getElementById('noteId').value;
+            var getSecretPhrase = document.getElementById('getSecretPhrase').value;
+
+            // Отправляем POST запрос на сервер
+            fetch('/get_note', {
+                method: 'POST',
+                body: JSON.stringify({ note_id: noteId, note_secret: getSecretPhrase }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.response === "ok") {
+                    document.location.href = "/note_page/" + data.note_final_text
+                }
+            })
+            .catch(error => {
+                // Обработка ошибок, если необходимо
+                console.error('Ошибка:', error);
+            });
+        });
+    </script>
+</body>
+</html>
